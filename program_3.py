@@ -1,25 +1,40 @@
-# Program #3: US_Population
 def main():
-    # Have the user input (using a loop) various information that contains three pieces of data: 
-    # year, name of state, and population.  
-    # Store all of this information in a list of lists.  For example it might be stored like this:
-    
-    # [[2010, "Maine", 1987435], [2010,"Minnesota",6873202], [2011, "Iowa", 3421988]]
     all_entered_values = []
+    for values in range(3):
+        while True:
+            try:
+                year = int(input('Please enter your year: '))
+                break
+            except ValueError:
+                print('Year must be a number. Please enter a valid year')
+                continue
+        state = input('Please enter your state: ')
+        while True:
+            try:
+                population = int(input('Please enter your population: '))
+                break
+            except ValueError:
+                print('Population must be a number')
+                continue
+        all_entered_values.append([year,state,population])
+    return all_entered_values
 
-    # Now have the user enter a year. 
-    
-    # The program will add the populations from all states in the list of list for that year only.
-    # Pass the list and year to the sum_population_for_year
+def total_population(data, target_year):
+    return sum(pop for year, _, pop in data if year == target_year)
 
-def sum_population_for_year(all_entered_values, year_to_sum):
-    # Loop through and sum the populations for the appropriate year. 
-    # e.g. for the list on line 7 the total would be 8,860,637 if the user enterd 2010 for the year to sum,
-    # or 3,421,988 if they enterd 2011 for the year to sum.
+def get_target_year(data):
+    years = {year for year, _, pop in data}
+    while True:
+        try:
+            entered_year = int(input('Please enter your year: '))
+        except ValueError:
+            print('Please enter a valid year')
+            continue
+        if entered_year not in years:
+            print(f'year not in list. Valid years are: {sorted(years)}')
+            continue
+        return entered_year
 
-    # print the totalled population
-
-
-# Call the main function.
-if __name__ == '__main__':
-    main()
+data = main()
+target_year = get_target_year(data)
+print (f'the total population for {target_year} is {total_population(data, target_year)}')
